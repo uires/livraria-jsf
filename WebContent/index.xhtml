@@ -9,18 +9,18 @@
 	<title>Home - Livros</title>
 </h:head>
 	<h:body>
-	
 		<p:layout >
 		    <p:layoutUnit position="west" resizable="false" size="245" minSize="245" maxSize="245">
 			    <p:menu>
 			        <p:submenu label="Ações">
-			        	<p:menuitem value="Home"  url="/index.xhtml" />
+			        	<p:menuitem value="Home"  url="/" />
 			            <p:menuitem value="Cadastrar Autor" url="/cadastro/cadastroautor.xhtml" />
 			        </p:submenu>
 			    </p:menu>
 		    </p:layoutUnit>
 		    <p:layoutUnit position="center">
-				<p:dataTable var="iten" value="#{livroMB.livros}" style="margin-bottom:40px" paginator="true" rows="10">
+				<p:dataTable id="tabela-livros" var="iten" value="#{livroMB.livros}" style="margin-bottom:10px" 
+						paginator="true" rows="10">
 			        Tabela Livros
 					<p:column headerText="Id" sortBy="#{iten.id}">
 						<h:outputText value="#{iten.id}" />
@@ -30,8 +30,14 @@
 						<h:outputText value="#{iten.titulo}" />
 					</p:column>
 			
-					<p:column headerText="Data" sortBy="#{iten.titulo}">
-						<h:outputText value="#{car.brand}" />
+					<p:column headerText="Data">
+						<h:outputText value="#{iten.dataLancamento.time}" >
+							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="ISBN">
+						<h:outputText value="#{iten.isbn}" />
 					</p:column>
 			
 					<p:column headerText="Preço" sortBy="#{iten.preco}">
@@ -44,32 +50,35 @@
 						position="center" appendTo="@(body)">
     				<h:form>
 						<h:panelGrid columns="2">
-							<p:outputLabel value="Título: " />
-							<p:inputText value="#{livroMB.livro.titulo}" />
+							<p:outputLabel for="titulo" value="Título: " />
+							<p:inputText id="titulo" value="#{livroMB.livro.titulo}" required="true" 
+									requiredMessage="Campo obrigatório" >
+								<f:validateLength maximum="155" minimum="10" />
+							</p:inputText>
 				
-							<p:outputLabel value="ISBN: " />
-							<p:inputText value="#{livroMB.livro.isbn}" />
+							<h:outputText for="isbn" value="ISBN " />
+            				<p:inputMask id="isbn" value="#{livroMB.livro.isbn}" mask="999-9-99-999999-9" />
 				
-							<p:outputLabel value="Preço: " />
-							<p:inputText value="#{livroMB.livro.preco}" />
+							<p:outputLabel for="preco" value="Preço: " />
+							<p:inputText id="preco" value="#{livroMB.livro.preco}" />
 				
-							<p:outputLabel value="Data Lançamento: " />
-							<p:inputText value="#{livroMB.livro.dataLancamento}" />
+							<p:outputLabel for="data" value="Data Lancamento: " />
+							<p:inputMask id="data" value="#{livroMB.livro.dataLancamento}" mask="99/99/9999" >
+								<!-- <f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo"/> -->
+							</p:inputMask>
 							<h:form>
-								<h:panelGrid columns="2">
-									<p:outputLabel value="Autor: " />
-									<p:selectOneMenu value="#{livroMB.autorId}">
-										<f:selectItems value="#{livroMB.autores}" var="autor"
-											itemLabel="#{autor.nome}" itemValue="#{autor.id}" />
-									</p:selectOneMenu>
-									<p:commandButton action="#{livroMB.gravarAutor}" value="Gravar" />
-								</h:panelGrid>
+								<p:outputLabel value="Autor: " />
+								<p:selectOneMenu value="#{livroMB.autorId}">
+									<f:selectItems value="#{livroMB.autores}" var="autor"
+										itemLabel="#{autor.nome}" itemValue="#{autor.id}" />
+								</p:selectOneMenu>
+								<p:commandButton action="#{livroMB.gravarAutor}" value="Gravar" />
 							</h:form>
-							<p:dataTable var="autor" value="#{livroMB.livro.autores}">
-								<p:column>
+							<h:dataTable var="autor" value="#{livroMB.livro.autores}">
+								<h:column>
 									<h:outputText value="#{autor.nome}"/>
-								</p:column>
-							</p:dataTable>
+								</h:column>
+							</h:dataTable>
 							<p:commandButton action="#{livroMB.cadastrarLivro()}" value="Cadastrar" 
 									onclick="PF('modalCadastroLivro').hide();"/>
 						</h:panelGrid>
