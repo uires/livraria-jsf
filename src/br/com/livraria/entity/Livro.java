@@ -31,7 +31,7 @@ public class Livro {
 	private String dataLancamento;
 	// tabela associativa gerada pelo relacionamento UNI-DIRECIONAL
 	@ManyToMany(cascade = CascadeType.ALL, 
-			fetch = FetchType.EAGER
+			fetch = FetchType.LAZY
 	)
 	@JoinTable(name="livro_autor",
 		joinColumns = @JoinColumn(name = "id_livro"),

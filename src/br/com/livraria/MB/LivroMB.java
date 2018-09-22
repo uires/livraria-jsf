@@ -16,6 +16,7 @@ public class LivroMB {
 	private Livro livro = new Livro();
 	private LivroDAO daoL = new LivroDAO();
 	private AutorDAO daoA = new AutorDAO();
+	private ArrayList<Livro> livros = (ArrayList<Livro>) daoL.selectAll();
 	private ArrayList<Autor> autores = (ArrayList<Autor>) daoA.selectAll();
 	private Long autorId;
 
@@ -58,6 +59,14 @@ public class LivroMB {
 
 	public void setLivro(Livro livro) {
 		this.livro = livro;
+	}
+
+	public ArrayList<Livro> getLivros() {
+		return livros;
+	}
+
+	public void setLivros(ArrayList<Livro> livros) {
+		this.livros = livros;
 	}
 
 }
