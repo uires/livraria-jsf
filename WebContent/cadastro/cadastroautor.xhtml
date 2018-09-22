@@ -8,9 +8,11 @@
 	</h:head>
 	<h:body>
 		<h:form>
-			<h:outputLabel value="Nome Autor"/>
-			<h:inputText value="#{autorMB.autor.nome}"/>
-			<h:commandButton action="#{autorMB.cadastarAutor}" value="Cadastrar" />
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Nome Autor"/>
+				<h:inputText value="#{autorMB.autor.nome}"/>
+				<h:commandButton action="#{autorMB.cadastarAutor}" value="Cadastrar" />
+			</h:panelGrid>
 		</h:form>
 	</h:body>
 </html>

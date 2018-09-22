@@ -3,33 +3,43 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core">
-	<h:head>
-		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-		<title>Cadastro Livro</title>
-	</h:head>
-	<h:body>
-		<h:form>
-			<h:panelGrid columns="2">
-				<h:outputLabel value="Título: "/>
-				<h:inputText value="#{livroMB.livro.titulo}" />
-				<h:outputLabel value="ISBN: "/>
-				<h:inputText value="#{livroMB.livro.isbn}" />
-				<h:outputLabel value="Preço: "/>
-				<h:inputText value="#{livroMB.livro.preco}" />
-				<h:outputLabel value="Data Lançamento: "/>
-				<h:inputText value="#{livroMB.livro.dataLancamento}" />
-				<h:form>
-					<h:panelGrid columns="2">
-						<h:outputLabel value="Autor: " />
-						<h:selectOneMenu value="#{livroMB.autorId}">
-							<f:selectItems value="#{livroMB.autores}" var="autor" itemLabel="#{autor.nome}"
-							itemValue="#{autor.id}"/>
-						</h:selectOneMenu>
-						<h:commandButton action="#{livroMB.gravarAutor}" value="Gravar" />
-					</h:panelGrid>
-				</h:form>
-				<h:commandButton action="#{livroMB.cadastrarLivro}" value="Cadastrar" />
-			</h:panelGrid>
-		</h:form>
-	</h:body>
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Cadastro Livro</title>
+</h:head>
+<h:body>
+	<h:form>
+		<h:panelGrid columns="2">
+			<h:outputLabel value="Título: " />
+			<h:inputText value="#{livroMB.livro.titulo}" />
+
+			<h:outputLabel value="ISBN: " />
+			<h:inputText value="#{livroMB.livro.isbn}" />
+
+			<h:outputLabel value="Preço: " />
+			<h:inputText value="#{livroMB.livro.preco}" />
+
+			<h:outputLabel value="Data Lançamento: " />
+			<h:inputText value="#{livroMB.livro.dataLancamento}" />
+		</h:panelGrid>
+		<fieldset>
+			<h:form>
+				<h:panelGrid columns="2">
+					<h:outputLabel value="Autor: " />
+					<h:selectOneMenu value="#{livroMB.autorId}">
+						<f:selectItems value="#{livroMB.autores}" var="autor"
+							itemLabel="#{autor.nome}" itemValue="#{autor.id}" />
+					</h:selectOneMenu>
+					<h:commandButton action="#{livroMB.gravarAutor}" value="Gravar" />
+				</h:panelGrid>
+			</h:form>
+			<h:dataTable var="autor" value="#{livroMB.livro.autores}">
+				<h:column>
+					<h:outputText value="#{autor.nome}"/>
+				</h:column>
+			</h:dataTable>
+		</fieldset>
+		<h:commandButton action="#{livroMB.cadastrarLivro}" value="Cadastrar" />
+	</h:form>
+</h:body>
 </html>
