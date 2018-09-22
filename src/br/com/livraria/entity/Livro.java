@@ -1,6 +1,7 @@
 package br.com.livraria.entity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "livro")
@@ -28,12 +31,13 @@ public class Livro {
 	@Column(name = "preco")
 	private double preco;
 	@Column(name = "data_lancamento")
-	private String dataLancamento;
-	// tabela associativa gerada pelo relacionamento UNI-DIRECIONAL
-	@ManyToMany(cascade = CascadeType.ALL, 
-			fetch = FetchType.LAZY
-	)
-	@JoinTable(name="livro_autor",
+	@Temporal(TemporalType.DATE)
+	private Date dataLancamento;
+	
+	// tabela associativa gerada pelo relacionamento entre livro e autor
+	// (UNI-DIRECIONAL)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "livro_autor",
 		joinColumns = @JoinColumn(name = "id_livro"),
 		inverseJoinColumns = @JoinColumn(name = "id_autor")
 	)
@@ -71,11 +75,11 @@ public class Livro {
 		this.preco = preco;
 	}
 
-	public String getDataLancamento() {
+	public Date getDataLancamento() {
 		return dataLancamento;
 	}
 
-	public void setDataLancamento(String dataLancamento) {
+	public void setDataLancamento(Date dataLancamento) {
 		this.dataLancamento = dataLancamento;
 	}
 

@@ -2,25 +2,25 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<title>Home - Livros</title>
 </h:head>
 	<h:body>
 	
-		<p:layout style="min-width:400px;min-height:200px;">
-		    <p:layoutUnit position="west" resizable="false" size="300" minSize="300" maxSize="300">
+		<p:layout >
+		    <p:layoutUnit position="west" resizable="false" size="245" minSize="245" maxSize="245">
 			    <p:menu>
 			        <p:submenu label="Ações">
 			        	<p:menuitem value="Home"  url="/index.xhtml" />
-			            <p:menuitem value="Cadastrar Livro"  url="/cadastro/cadastrolivro.xhtml" />
 			            <p:menuitem value="Cadastrar Autor" url="/cadastro/cadastroautor.xhtml" />
 			        </p:submenu>
 			    </p:menu>
 		    </p:layoutUnit>
 		    <p:layoutUnit position="center">
-				<p:dataTable var="iten" value="#{livroMB.livros}" style="margin-bottom:40px" paginator="true" rows="15">
+				<p:dataTable var="iten" value="#{livroMB.livros}" style="margin-bottom:40px" paginator="true" rows="10">
 			        Tabela Livros
 					<p:column headerText="Id" sortBy="#{iten.id}">
 						<h:outputText value="#{iten.id}" />
@@ -39,6 +39,42 @@
 					</p:column>
 					
 				</p:dataTable>
+				<p:commandButton value="Cadastrar Livro" type="button" onclick="PF('modalCadastroLivro').show();" />
+				<p:dialog header="Cadastro Livro" widgetVar="modalCadastroLivro" modal="true" height="300" width="750" 
+						position="center" appendTo="@(body)">
+    				<h:form>
+						<h:panelGrid columns="2">
+							<p:outputLabel value="Título: " />
+							<p:inputText value="#{livroMB.livro.titulo}" />
+				
+							<p:outputLabel value="ISBN: " />
+							<p:inputText value="#{livroMB.livro.isbn}" />
+				
+							<p:outputLabel value="Preço: " />
+							<p:inputText value="#{livroMB.livro.preco}" />
+				
+							<p:outputLabel value="Data Lançamento: " />
+							<p:inputText value="#{livroMB.livro.dataLancamento}" />
+							<h:form>
+								<h:panelGrid columns="2">
+									<p:outputLabel value="Autor: " />
+									<p:selectOneMenu value="#{livroMB.autorId}">
+										<f:selectItems value="#{livroMB.autores}" var="autor"
+											itemLabel="#{autor.nome}" itemValue="#{autor.id}" />
+									</p:selectOneMenu>
+									<p:commandButton action="#{livroMB.gravarAutor}" value="Gravar" />
+								</h:panelGrid>
+							</h:form>
+							<p:dataTable var="autor" value="#{livroMB.livro.autores}">
+								<p:column>
+									<h:outputText value="#{autor.nome}"/>
+								</p:column>
+							</p:dataTable>
+							<p:commandButton action="#{livroMB.cadastrarLivro()}" value="Cadastrar" 
+									onclick="PF('modalCadastroLivro').hide();"/>
+						</h:panelGrid>
+					</h:form>
+				</p:dialog>   
 			</p:layoutUnit>
 		</p:layout>
 	</h:body>

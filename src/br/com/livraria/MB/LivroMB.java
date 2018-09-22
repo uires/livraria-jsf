@@ -13,16 +13,17 @@ import br.com.livraria.entity.Livro;
 @ManagedBean(name = "livroMB")
 @ViewScoped
 public class LivroMB {
+	private Long autorId;
 	private Livro livro = new Livro();
+
 	private LivroDAO daoL = new LivroDAO();
 	private AutorDAO daoA = new AutorDAO();
+
 	private ArrayList<Livro> livros = (ArrayList<Livro>) daoL.selectAll();
 	private ArrayList<Autor> autores = (ArrayList<Autor>) daoA.selectAll();
-	private Long autorId;
 
 	public String cadastrarLivro() {
 		daoL.save(livro);
-		livro = new Livro();
 		return "index.xhtml";
 	}
 
