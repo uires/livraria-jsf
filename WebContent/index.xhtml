@@ -19,7 +19,7 @@
 			    </p:menu>
 		    </p:layoutUnit>
 		    <p:layoutUnit position="center">
-				<p:dataTable id="tabela-livros" var="iten" value="#{livroMB.livros}" style="margin-bottom:10px" 
+				<p:dataTable id="tabela-livros" var="iten" value="#{livroMB.livros}" style="margin-bottom:10px; width:1200px;" 
 						paginator="true" rows="10">
 			        Tabela Livros
 					<p:column headerText="Id" sortBy="#{iten.id}">
@@ -46,44 +46,6 @@
 					
 				</p:dataTable>
 				<p:commandButton value="Cadastrar Livro" type="button" onclick="PF('modalCadastroLivro').show();" />
-				<p:dialog header="Cadastro Livro" widgetVar="modalCadastroLivro" modal="true" height="300" width="750" 
-						position="center" appendTo="@(body)">
-    				<h:form>
-						<h:panelGrid columns="2">
-							<p:outputLabel for="titulo" value="Título: " />
-							<p:inputText id="titulo" value="#{livroMB.livro.titulo}" required="true" 
-									requiredMessage="Campo obrigatório" >
-								<f:validateLength maximum="155" minimum="10" />
-							</p:inputText>
-				
-							<h:outputText for="isbn" value="ISBN " />
-            				<p:inputMask id="isbn" value="#{livroMB.livro.isbn}" mask="999-9-99-999999-9" />
-				
-							<p:outputLabel for="preco" value="Preço: " />
-							<p:inputText id="preco" value="#{livroMB.livro.preco}" />
-				
-							<p:outputLabel for="data" value="Data Lancamento: " />
-							<p:inputMask id="data" value="#{livroMB.livro.dataLancamento}" mask="99/99/9999" >
-								<!-- <f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo"/> -->
-							</p:inputMask>
-							<h:form>
-								<p:outputLabel value="Autor: " />
-								<p:selectOneMenu value="#{livroMB.autorId}">
-									<f:selectItems value="#{livroMB.autores}" var="autor"
-										itemLabel="#{autor.nome}" itemValue="#{autor.id}" />
-								</p:selectOneMenu>
-								<p:commandButton action="#{livroMB.gravarAutor}" value="Gravar" />
-							</h:form>
-							<h:dataTable var="autor" value="#{livroMB.livro.autores}">
-								<h:column>
-									<h:outputText value="#{autor.nome}"/>
-								</h:column>
-							</h:dataTable>
-							<p:commandButton action="#{livroMB.cadastrarLivro()}" value="Cadastrar" 
-									onclick="PF('modalCadastroLivro').hide();"/>
-						</h:panelGrid>
-					</h:form>
-				</p:dialog>   
 			</p:layoutUnit>
 		</p:layout>
 	</h:body>
