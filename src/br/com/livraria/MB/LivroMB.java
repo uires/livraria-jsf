@@ -1,9 +1,14 @@
 package br.com.livraria.MB;
 
-import java.util.ArrayList;
+import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
+import javax.xml.bind.ValidationException;
 
 import br.com.livraria.DAO.AutorDAO;
 import br.com.livraria.DAO.LivroDAO;
@@ -15,15 +20,25 @@ import br.com.livraria.entity.Livro;
 public class LivroMB {
 	private Long autorId;
 	private Livro livro = new Livro();
-
+	
 	private LivroDAO daoL = new LivroDAO();
 	private AutorDAO daoA = new AutorDAO();
-
-	private ArrayList<Livro> livros = (ArrayList<Livro>) daoL.selectAll();
-	private ArrayList<Autor> autores = (ArrayList<Autor>) daoA.selectAll();
-
+	
+	// Getters e Setters
+	public List<Autor> getAutores() { return daoA.selectAll(); }
+	public List<Livro> getLivros() { return daoL.selectAll(); }
+	public Livro getLivro() { return livro; }
+	public void setLivro(Livro livro) { this.livro = livro; }
+	public Long getAutorId() { return autorId; }
+	public void setAutorId(Long autorId) { this.autorId = autorId; }
+	
+	//	Ações
 	public String cadastrarLivro() {
+		if (livro.getAutores().size() == 0) {
+			FacesContext.getCurrentInstance().addMessage("autor", new FacesMessage("Não foi possível gravar o autor!"));
+		}
 		daoL.save(livro);
+		livro = new Livro();
 		return "index.xhtml";
 	}
 
@@ -33,41 +48,15 @@ public class LivroMB {
 			autor.setId(autorId);
 			livro.getAutores().add(daoA.selectById(autor));
 		} else {
-			throw new RuntimeException("id do autor não pode ser nulo");
+			FacesContext.getCurrentInstance().addMessage("autor", new FacesMessage("Não foi possível gravar o autor!"));
 		}
-
 	}
-
-	public Long getAutorId() {
-		return autorId;
+	
+	// Validation Rules
+	public void validarIsbnModeloLivro(FacesContext facesContext, UIComponent component, Object value) throws ValidationException {
+		String valor = value.toString();
+		if( !valor.startsWith("9")) {
+			throw new ValidatorException(new FacesMessage("Esse campo deve começar por padrão com 9"));
+		}
 	}
-
-	public void setAutorId(Long autorId) {
-		this.autorId = autorId;
-	}
-
-	public ArrayList<Autor> getAutores() {
-		return autores;
-	}
-
-	public void setAutores(ArrayList<Autor> autores) {
-		this.autores = autores;
-	}
-
-	public Livro getLivro() {
-		return livro;
-	}
-
-	public void setLivro(Livro livro) {
-		this.livro = livro;
-	}
-
-	public ArrayList<Livro> getLivros() {
-		return livros;
-	}
-
-	public void setLivros(ArrayList<Livro> livros) {
-		this.livros = livros;
-	}
-
 }
