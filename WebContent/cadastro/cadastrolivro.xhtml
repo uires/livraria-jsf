@@ -3,54 +3,53 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui" >
-<h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-	<title>Cadastro Livro</title>
-</h:head>
-<h:body>
-	<h:form>
-		<fieldset>
-			<legend>Cadastro de Livro</legend>
-			<h:panelGrid columns="2">
-				<p:outputLabel for="titulo" value="Título: " />
-				<p:inputText id="titulo" value="#{livroMB.livro.titulo}" required="true" requiredMessage="Campo obrigatório"
-					validatorMessage="O título do livro não pode ter menos de 10 caracteres!">
-					<f:validateLength maximum="155" minimum="10" />
-				</p:inputText>
-	
-				<h:outputText for="isbn" value="ISBN " />
-				<p:inputMask id="isbn" value="#{livroMB.livro.isbn}" mask="999-9-99-999999-9" validator="#{livroMB.validarIsbnModeloLivro}" />
-	
-				<p:outputLabel for="preco" value="Preço: " />
-				<p:inputText id="preco" value="#{livroMB.livro.preco}" validatorMessage="O valor não pode ser maior que R$1000.00 e menor do que R$ 1.00">
-					<f:validateDoubleRange maximum="1000.00" minimum="1.00" />
-				</p:inputText>
-	
-				<p:outputLabel for="data" value="Data Lancamento: " />
-				<p:inputMask id="data" value="#{livroMB.livro.dataLancamento}"	mask="99/99/9999">
-					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
-				</p:inputMask>
-				
-				<h:form>
-					<fieldset>
-					<legend>Selecionar Autores</legend>
-						<p:outputLabel value="Autor: " />
-						<p:selectOneMenu value="#{livroMB.autorId}">
-							<f:selectItems value="#{livroMB.autores}" var="autor" itemLabel="#{autor.nome}" itemValue="#{autor.id}" />
-						</p:selectOneMenu>
-						<h:commandButton action="#{livroMB.gravarAutor}" value="Gravar Autor" />
-					</fieldset>
-				</h:form>
-				
-				<h:dataTable var="autor" value="#{livroMB.livro.autores}">
-					<h:column>
-						<h:outputText value="#{autor.nome}" />
-					</h:column>
-				</h:dataTable>
-				<h:commandButton action="#{livroMB.cadastrarLivro}"	value="Cadastrar" />
-			</h:panelGrid>
-		</fieldset>
-	</h:form>
-</h:body>
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<title>Cadastro Livro</title>
+	</h:head>
+	<h:body>
+		
+		<h:form>
+			<fieldset>
+				<legend>Cadastro de Livro</legend>
+				<h:panelGrid columns="2">
+					<p:outputLabel for="titulo" value="Título: " />
+					<h:inputText id="titulo" value="#{livroMB.livro.titulo}" required="true" requiredMessage="Campo obrigatório"
+						validatorMessage="O título do livro não pode ter menos de 10 caracteres!">
+						<f:validateLength maximum="155" minimum="10" />
+					</h:inputText>
+		
+					<h:outputText for="isbn" value="ISBN " />
+					<p:inputMask id="isbn" value="#{livroMB.livro.isbn}" mask="999-9-99-999999-9" validator="#{livroMB.validarIsbnModeloLivro}" />
+		
+					<h:outputLabel for="preco" value="Preço: " />
+					<h:inputText id="preco" value="#{livroMB.livro.preco}" validatorMessage="O valor não pode ser maior que R$1000.00 e menor do que R$ 1.00">
+						<f:validateDoubleRange maximum="1000.00" minimum="1.00" />
+					</h:inputText>
+		
+					<p:outputLabel for="data" value="Data Lancamento: " />
+					<p:inputMask id="data" value="#{livroMB.livro.dataLancamento}"	mask="99/99/9999">
+						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+					</p:inputMask>
+				</h:panelGrid>
+			</fieldset>
+			<fieldset>
+				<legend>Selecionar Autores</legend>
+					<h:outputLabel value="Autor: " />
+					<h:selectOneMenu id="autor" value="#{livroMB.autorId}">
+						<f:selectItems value="#{livroMB.autores}" var="autor" itemLabel="#{autor.nome}" itemValue="#{autor.id}" />
+					</h:selectOneMenu>
+					<h:commandButton action="#{livroMB.gravarAutor}" value="Gravar Autor" >
+						<f:ajax execute="autor" render="tabela" />
+					</h:commandButton>
+					<h:dataTable id="tabela" var="autor" value="#{livroMB.livro.autores}">
+						<h:column>
+							<h:outputText value="#{autor.nome}" />
+						</h:column>
+					</h:dataTable>
+				</fieldset>
+			<h:commandButton action="#{livroMB.cadastrarLivro}"	value="Cadastrar" />
+		</h:form>
+	</h:body>
 </html>
