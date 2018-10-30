@@ -39,7 +39,7 @@ public class LivroMB {
 		}
 		daoL.save(livro);
 		livro = new Livro();
-		return "index.xhtml";
+		return "../index.xhtml?faces-redirect=true";
 	}
 
 	public void gravarAutor() {
