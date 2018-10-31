@@ -25,7 +25,6 @@ public class LivroMB {
 	private AutorDAO daoA = new AutorDAO();
 	
 	// Getters e Setters
-	public List<Autor> getAutores() { return daoA.selectAll(); }
 	public List<Livro> getLivros() { return daoL.selectAll(); }
 	public Livro getLivro() { return livro; }
 	public void setLivro(Livro livro) { this.livro = livro; }
