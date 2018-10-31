@@ -38,7 +38,7 @@
 				<legend>Selecionar Autores</legend>
 					<h:outputLabel value="Autor: " />
 					<h:selectOneMenu id="autor" value="#{livroMB.autorId}">
-						<f:selectItems value="#{livroMB.autores}" var="autor" itemLabel="#{autor.nome}" itemValue="#{autor.id}" />
+						<f:selectItems value="#{autorMB.autores}" var="autor" itemLabel="#{autor.nome}" itemValue="#{autor.id}" />
 					</h:selectOneMenu>
 					<h:commandButton action="#{livroMB.gravarAutor}" value="Gravar Autor" >
 						<f:ajax execute="autor" render="tabela" />
